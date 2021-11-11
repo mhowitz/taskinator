@@ -13,10 +13,10 @@ var tasks = [
 ];
 
 
-var taskFormHandler = function(event) {
+var taskFormHandler = function (event) {
     event.preventDefault();
     var taskNameInput = document.querySelector("input[name='task-name']").value;
-    var taskTypeInput =  document.querySelector("select[name='task-type']").value;
+    var taskTypeInput = document.querySelector("select[name='task-type']").value;
 
     // check if input values are empty strings
     if (!taskNameInput || !taskTypeInput) {
@@ -43,13 +43,13 @@ var taskFormHandler = function(event) {
     }
 };
 
-var createTaskEl = function(taskDataObj) {
-    var listItemEl =document.createElement("li");
+var createTaskEl = function (taskDataObj) {
+    var listItemEl = document.createElement("li");
     listItemEl.className = "task-item";
 
     //add task id as a custom attribute
-    listItemEl.setAttribute( "data-task-id", taskIdCounter);
-    
+    listItemEl.setAttribute("data-task-id", taskIdCounter);
+
     //create a div to hold everything
     var taskInfoEl = document.createElement("div");
     //give it a class name for css styles
@@ -74,10 +74,10 @@ var createTaskEl = function(taskDataObj) {
     saveTasks();
 }
 
-var createTaskActions = function(taskId) {
+var createTaskActions = function (taskId) {
     var actionContainerEl = document.createElement("div");
     actionContainerEl.className = "task-actions";
-    
+
     //create edit button
     var editButtonEl = document.createElement("button");
     editButtonEl.textContent = "Edit";
@@ -91,15 +91,15 @@ var createTaskActions = function(taskId) {
     deleteButtonEl.textContent = "Delete";
     deleteButtonEl.className = "btn delete-btn";
     deleteButtonEl.setAttribute("data-task-id", taskId);
-    
+
     actionContainerEl.appendChild(deleteButtonEl);
-    
+
     //adding select element
     var statusSelectEl = document.createElement("select");
     statusSelectEl.className = "select-status";
     statusSelectEl.setAttribute("name", "status-change");
     statusSelectEl.setAttribute("data-task-id", taskId);
-    
+
     actionContainerEl.appendChild(statusSelectEl);
 
     //array for options in elements section
@@ -121,7 +121,7 @@ var createTaskActions = function(taskId) {
 formEl.addEventListener("submit", taskFormHandler);
 
 //function that this shit doesnt explain well
-var deleteTask = function(taskId) {
+var deleteTask = function (taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     taskSelected.remove();
 
@@ -141,7 +141,7 @@ var deleteTask = function(taskId) {
 };
 
 //function that edits a task
-var editTask = function(taskId) {
+var editTask = function (taskId) {
     console.log("editing task #" + taskId);
 
     //get taks list item element
@@ -160,14 +160,14 @@ var editTask = function(taskId) {
 };
 
 //complete edit task function!
-var completeEditTask = function(taskName, taskType, taskId) {
+var completeEditTask = function (taskName, taskType, taskId) {
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
     //set new values!
     taskSelected = document.querySelector("h3.task-name").textContent = taskName;
-    taskSelected = document.querySelector("span.task-type").textContent= taskType;
+    taskSelected = document.querySelector("span.task-type").textContent = taskType;
 
     //loop through tasks array and task object with new content:
-    for (var i = 0; i<tasks.length; i++) {
+    for (var i = 0; i < tasks.length; i++) {
         if (tasks[i].id === parseInt(taskId)) {
             tasks[i].name = taskName;
             tasks[i].type = taskType;
@@ -182,7 +182,7 @@ var completeEditTask = function(taskName, taskType, taskId) {
     document.querySelector("#save-task").textContent = "Add Task";
 }
 
-var taskButtonHandler = function(event) {
+var taskButtonHandler = function (event) {
     //get target element from event
     var targetEl = event.target;
 
@@ -200,14 +200,14 @@ var taskButtonHandler = function(event) {
     }
 }
 // task status change function
-var taskStausChangeHandler = function(event) {
+var taskStausChangeHandler = function (event) {
     //get the task items id
     var taskId = event.target.getAttribute("data-task-id");
     //get the currently selected options value and conver it to lowercase
     var statusValue = event.target.value.toLowerCase();
     //find teh parent task item element based on the id
     var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
-// these if statements move the task to different section when the task selected status is changed
+    // these if statements move the task to different section when the task selected status is changed
     if (statusValue === "to do") {
         tasksToDoEl.appendChild(taskSelected);
     } else if (statusValue === "in progress") {
@@ -225,22 +225,21 @@ var taskStausChangeHandler = function(event) {
     saveTasks();
 };
 
-var saveTasks = function() {
+var saveTasks = function () {
     localStorage.setItem("tasks", JSON.stringify(tasks));
 }
 
-var loadTasks = function() {
+var loadTasks = function () {
     //get tasks from localStorage
     tasks = localStorage.getItem("tasks", tasks);
     //convert from string to ojects parse???
     //itereates trhgouth a tasks array and creates task elemetns on page from it
-    console.log(tasks);
     if (!tasks) {
-        tasks = [];
-        return false;
+
+        return false
     }
+
     tasks = JSON.parse(tasks);
-    console.log(tasks);
 
     for (var i = 0; i < tasks.length; i++) {
         //reassigning the id to saved task items
