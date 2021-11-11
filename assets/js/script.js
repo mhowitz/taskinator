@@ -4,6 +4,7 @@ console.dir(window.document);
 
 var formEl = document.querySelector("#task-form")
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var pageContentEl = document.querySelector("#page-content");
 
 
 var taskFormHandler = function(event) {
@@ -101,5 +102,25 @@ var createTaskActions = function(taskId) {
 }
 
 formEl.addEventListener("submit", taskFormHandler);
+
+//function that this shit doesnt explain well
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+};
+
+var taskButtonHandler = function(event) {
+    console.log(event.target);
+
+    if (event.target.matches(".delete-btn")) {
+        console.log("you clicked the delete button.");
+        //get the elements task id
+        var taskId = event.target.getAttribute("data-task-id");
+        console.log(taskId);
+        deleteTask(taskId);
+    //i am guessing this is where we repend child delete btn
+    }
+}
+pageContentEl.addEventListener("click", taskButtonHandler);
 
 
