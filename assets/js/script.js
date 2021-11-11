@@ -109,16 +109,39 @@ var deleteTask = function(taskId) {
     taskSelected.remove();
 };
 
-var taskButtonHandler = function(event) {
-    console.log(event.target);
+//function that edits a task
+var editTask = function(taskId) {
+    console.log("editing task #" + taskId);
 
-    if (event.target.matches(".delete-btn")) {
+    //get taks list item element
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    //get content from name and type
+    var taskName = taskSelected.querySelector("h3.task-name").textContent;
+
+    var taskType = taskSelected.querySelector("span.task-type").textContent;
+    //these satements enter the ttask name and task type value back in form
+    document.querySelector("input[name = 'task-name']").value = taskName;
+    document.querySelector("select[name= 'task-type']").value = taskType;
+    //enter submit button to save task so user knows its in edit form
+    document.querySelector("#save-task").textContent = "Save Task";
+    //include task id in edit task function
+    formEl.setAttribute("data-task-id", taskId);
+};
+var taskButtonHandler = function(event) {
+    //get target element from event
+    var targetEl = event.target;
+
+    //edit button was clicked
+    if (targetEl.matches(".edit-btn")) {
+        var taskId = targetEl.getAttribute("data-task-id");
+        editTask(taskId);
+    }
+    //delete button was clicked
+    else if (targetEl.matches(".delete-btn")) {
+        var taskId = targetEl.getAttribute('data-task-id');
         console.log("you clicked the delete button.");
         //get the elements task id
-        var taskId = event.target.getAttribute("data-task-id");
-        console.log(taskId);
         deleteTask(taskId);
-    //i am guessing this is where we repend child delete btn
     }
 }
 pageContentEl.addEventListener("click", taskButtonHandler);
